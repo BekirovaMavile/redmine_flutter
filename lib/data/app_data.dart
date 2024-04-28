@@ -1,0 +1,70 @@
+import 'package:redmine_tasker/data/task.dart';
+import 'package:redmine_tasker/data/taskDetail.dart';
+
+List<Task> taskData = [
+  Task(id: '16467', name: 'WebAnt', status: 'Закончен'),
+  Task(id: '17589', name: 'Доступная еда', status: 'В работе'),
+  Task(id: '17532', name: 'КИПУ', status: 'Тестирование'),
+  Task(id: '1109', name: 'Доступная еда', status: 'Закончен'),
+  Task(id: '18989', name: 'КИПУ', status: 'В работе'),
+];
+
+List<TaskDetail> tasksDetails = [
+  TaskDetail(
+    taskId: '16467',
+    name: 'WebAnt',
+    status: 'Закончен',
+    category: 'UI',
+    startDate: DateTime(2024, 4, 20),
+    endDate: DateTime(2024, 4, 29),
+    description: 'Нарисовать основные экраны для приложения Redmine',
+    priority: 'Высокий',
+    readinessPercentage: 50,
+    fileList: ['file1.doc', 'file2.pdf'],
+  ),
+  TaskDetail(
+    taskId: '17589',
+    name: 'Доступная еда',
+    status: 'В работе',
+    category: 'Database',
+    startDate: DateTime(2024, 4, 22),
+    description: 'Изменить связи в таблицах',
+    priority: 'Низкий',
+    readinessPercentage: 75,
+    fileList: ['file3.jpg', 'file4.png'],
+  ),
+  TaskDetail(
+    taskId: '17532',
+    name: 'КИПУ',
+    category: 'Database',
+    status: 'Тестирование',
+    startDate: DateTime(2024, 4, 24),
+    description: 'Написать модель для мобильного приложения Moodle',
+    priority: 'Средний',
+    readinessPercentage: 25,
+    fileList: ['file5.txt', 'file6.xlsx'],
+  ),
+  TaskDetail(
+    taskId: '1109',
+    name: 'Доступная еда',
+    category: 'Accounts/authentication',
+    status: 'Закончен',
+    startDate: DateTime(2024, 4, 26),
+    endDate: DateTime(2024, 5, 1),
+    description: 'Добавить авторизацию через соцсети',
+    priority: 'Средний',
+    readinessPercentage: 100,
+    fileList: ['file7.docx'],
+  ),
+  TaskDetail(
+    taskId: '18989',
+    name: 'КИПУ',
+    category: 'UI',
+    status: 'В работе',
+    startDate: DateTime(2024, 4, 28),
+    description: 'Нарисовать основные экраны',
+    priority: 'Высокий',
+    readinessPercentage: 0,
+    fileList: ['file9.png', 'file10.jpg'],
+  ),
+];
