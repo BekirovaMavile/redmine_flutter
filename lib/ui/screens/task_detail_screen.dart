@@ -13,6 +13,7 @@ class TaskDetailScreen extends StatefulWidget {
 
 class _TaskDetailScreenState extends State<TaskDetailScreen> {
   bool isWorking = false;
+  bool isSubscribed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
                   ),
               const SizedBox(height: 16.0),
               _statusAndPriority(taskDetail.status, taskDetail.priority),
-              Divider(),
+              const Divider(),
               const SizedBox(height: 16.0),
               const Text(
                 'Описание:',
@@ -134,11 +135,15 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
         children: [
           ElevatedButton(
             onPressed: () {
-              setState(() {
-                isWorking = !isWorking;
-              });
+              if (!isSubscribed) {
+                _showSubscriptionDialog();
+              } else {
+                setState(() {
+                  isWorking = !isWorking;
+                });
+              }
             },
-            child: Icon(isWorking ? Icons.pause : Icons.play_arrow, color: Color(0xFF363636)),
+            child: Icon(isWorking ? Icons.pause : Icons.play_arrow, color: const Color(0xFF363636)),
           ),
           const SizedBox(width: 16.0),
           const Text(
@@ -154,6 +159,33 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
     );
   }
 
+  void _showSubscriptionDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Для отслеживания времени подключите подписку."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Отмена", style: TextStyle(color: Colors.black)),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(const Color(0xFFF99A29)),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Подключить",  style: TextStyle(color: Colors.white),),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget _statusAndPriority(String? status, String? priority) {
     return Row(
@@ -162,13 +194,13 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
           'Статус: ',
           style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
         ),
-        Text(status ?? 'Unknown', style: TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)),
+        Text(status ?? 'Unknown', style: const TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)),
         const Spacer(),
         const Text(
           'Приоритет: ',
           style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
         ),
-        Text(priority ?? 'Unknown', style: TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)),
+        Text(priority ?? 'Unknown', style: const TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)),
       ],
     );
   }
@@ -184,7 +216,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
               'Категория: ',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            Text(category ?? 'Unknown', style: TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)),
+            Text(category ?? 'Unknown', style: const TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)),
           ],
         ),
         const SizedBox(height: 4.0),
@@ -194,7 +226,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
               'Дата начала: ',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            Text(startDate?.toString().split(' ')[0] ?? 'Unknown', style: TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)),
+            Text(startDate?.toString().split(' ')[0] ?? 'Unknown', style: const TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)),
           ],
         ),
         const SizedBox(height: 4.0),
@@ -205,7 +237,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             Text(endDate != null ? endDate.toString().split(' ')[0] : '-',
-                style: TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)
+                style: const TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic)
             ),
           ],
         ),
@@ -235,7 +267,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
                           topRight: readinessPercentage == 100 ? const Radius.circular(10.0) : Radius.zero,
                           bottomRight: readinessPercentage == 100 ? const Radius.circular(10.0) : Radius.zero,
                         ),
-                        color: Colors.orange,
+                        color: const Color(0xFFF99A29),
                       ),
                     ),
                   ),
