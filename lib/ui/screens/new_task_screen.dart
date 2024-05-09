@@ -53,7 +53,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFFF99A29),
+                      backgroundColor: const Color(0xFFF99A29),
                     ),
                     child: const Text(
                       "Выбрать файлы",
