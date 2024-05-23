@@ -5,8 +5,27 @@ import 'package:redmine_tasker/ui/screens/login_screen.dart';
 import 'package:redmine_tasker/ui/screens/new_task_screen.dart';
 import 'package:redmine_tasker/ui/screens/task_detail_screen.dart';
 
-class TaskListScreen extends StatelessWidget {
-  const TaskListScreen({Key? key});
+class TaskListScreen extends StatefulWidget {
+  const TaskListScreen({Key? key}) : super(key: key);
+
+  @override
+  _TaskListScreenState createState() => _TaskListScreenState();
+}
+
+class _TaskListScreenState extends State<TaskListScreen> {
+  bool isSorted = false;
+
+  List<Task> get sortedTasks {
+    List<Task> sorted = List.from(taskData);
+    sorted.sort((a, b) {
+      if (a.priority == b.priority) return 0;
+      if (a.priority == 'Высокий') return -1;
+      if (a.priority == 'Средний' && b.priority == 'Низкий') return -1;
+      if (a.priority == 'Низкий') return 1;
+      return 1;
+    });
+    return sorted;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +77,11 @@ class TaskListScreen extends StatelessWidget {
       actions: [
         IconButton(
           icon: const Icon(Icons.sort, color: Colors.white,),
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              isSorted = !isSorted;
+            });
+          },
         ),
         Container(
           height: kToolbarHeight,
@@ -66,17 +89,21 @@ class TaskListScreen extends StatelessWidget {
             color: Color(0xFFF99A29),
             borderRadius: BorderRadius.zero,
           ),
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
-            },
-            child: const Text(
-              'Disconnect',
-              style: TextStyle(color: Colors.white),
-            ),
+          child: Row(
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
+                },
+                child: const Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -124,6 +151,7 @@ class TaskListScreen extends StatelessWidget {
   }
 
   Widget _tableTask(BuildContext context) {
+    List<Task> tasksToDisplay = isSorted ? sortedTasks : taskData;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Table(
@@ -137,10 +165,10 @@ class TaskListScreen extends StatelessWidget {
             children: [
               _tableCell('ID'),
               _tableCell('Название'),
-              _tableCell('Статус'),
+              _tableCell('Приоритет'),
             ],
           ),
-          for (Task task in taskData)
+          for (Task task in tasksToDisplay)
             TableRow(
               children: [
                 GestureDetector(
@@ -159,7 +187,7 @@ class TaskListScreen extends StatelessWidget {
                   onTap: () {
                     _navigateToTaskDetail(context, task.id);
                   },
-                  child: _tableCell(task.status),
+                  child: _tableCell(task.priority),
                 ),
               ],
             ),
@@ -185,4 +213,3 @@ class TaskListScreen extends StatelessWidget {
     );
   }
 }
-

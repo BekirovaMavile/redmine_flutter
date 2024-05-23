@@ -1,7 +1,7 @@
 class Task {
   final String id;
   final String name;
-  final String status;
+  final String priority;
   // final String priority;
   // final String category;
   // final DateTime? startDate;
@@ -13,7 +13,7 @@ class Task {
   Task({
     required this.id,
     required this.name,
-    required this.status,
+    required this.priority,
     // this.priority = '',
     // this.category = '',
     // this.startDate,
